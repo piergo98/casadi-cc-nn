@@ -13,12 +13,12 @@ import casadi as cs
 import matplotlib.pyplot as plt
 import numpy as np
 
-import csnn
+import ccnn
 
 # create the model
 n_in = 2
 n_hidden = 32
-mdl = csnn.convex.PwqNN(n_in, n_hidden)
+mdl = ccnn.convex.PwqNN(n_in, n_hidden)
 
 # turn it into a function
 x = cs.MX.sym("x", n_in, 1)

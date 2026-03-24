@@ -9,9 +9,9 @@ if sys.version_info >= (3, 11):
     from typing import Self
 else:
     from typing_extensions import Self
-import casadi as cs
+import casadi as ca
 
-SymType = TypeVar("SymType", cs.SX, cs.MX)
+SymType = TypeVar("SymType", ca.SX, ca.MX)
 
 
 def _addindent(s_, numSpaces):
@@ -29,7 +29,7 @@ class Module(ABC, Generic[SymType]):
     """Base class for all neural network modules. Your models should also subclass this
     class."""
 
-    sym_type: ClassVar[Union[type[cs.SX], type[cs.MX]]] = cs.MX
+    sym_type: ClassVar[Union[type[ca.SX], type[ca.MX]]] = ca.MX
 
     def __init__(self) -> None:
         self._parameters: dict[str, Optional[SymType]] = OrderedDict()
@@ -164,7 +164,7 @@ class Module(ABC, Generic[SymType]):
     def __setattr__(self, name: str, value: Any) -> None:
         if isinstance(value, Module):
             self.add_module(name, value)
-        elif isinstance(value, (cs.SX, cs.MX)):
+        elif isinstance(value, (ca.SX, ca.MX)):
             self.register_parameter(name, value)
         return super().__setattr__(name, value)
 

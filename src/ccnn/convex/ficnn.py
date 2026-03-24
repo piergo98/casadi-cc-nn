@@ -1,7 +1,7 @@
 from collections.abc import Iterator, Sequence
 from typing import Optional, TypeVar
 
-import casadi as cs
+import casadi as ca
 import numpy as np
 import numpy.typing as npt
 
@@ -11,7 +11,7 @@ from ..init import RngType, init_parameters
 from ..linear import Linear
 from ..module import Module
 
-SymType = TypeVar("SymType", cs.SX, cs.MX)
+SymType = TypeVar("SymType", ca.SX, ca.MX)
 
 
 class FicnnLayer(Module[SymType]):

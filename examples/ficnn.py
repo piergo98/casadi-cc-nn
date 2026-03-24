@@ -11,13 +11,13 @@ import casadi as cs
 import matplotlib.pyplot as plt
 import numpy as np
 
-import csnn
+import ccnn
 
 # create the model
 n_in = 2
 hidden = [32, 16]
 n_out = 1
-mdl = csnn.convex.FicNN(n_in, hidden, n_out)
+mdl = ccnn.convex.FicNN(n_in, hidden, n_out)
 
 # turn it into a function
 x = cs.MX.sym("x", n_in, 1)

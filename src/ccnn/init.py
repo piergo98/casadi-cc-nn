@@ -7,7 +7,7 @@ import numpy as np
 import numpy.typing as npt
 
 if TYPE_CHECKING:
-    from csnn import Module
+    from ccnn import Module
 
 if sys.version_info >= (3, 10):
     from typing import TypeAlias
@@ -103,7 +103,7 @@ def _init(
     module: "Module", skip_none: bool, seed: RngType = None
 ) -> Generator[tuple[str, Optional[npt.NDArray[np.floating]]], None, None]:
     """Internal function to initialize a module's parameters based on its class."""
-    from csnn import RNN, BatchNorm1d, Linear, RNNCell
+    from ccnn import RNN, BatchNorm1d, Linear, RNNCell
 
     np_random = np.random.default_rng(seed)
 

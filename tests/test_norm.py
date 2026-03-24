@@ -21,7 +21,7 @@ class TestNormalization(unittest.TestCase):
         set_sym_type(self.sym_type)
         num_features, batch_size = map(int, np.random.randint(5, 20, 2))
         Lc = cnn.BatchNorm1d(num_features, affine=affine)
-        Lt = tnn.BatchNorm1d(num_features, affine=affine, eps=0.0, dtype=float)
+        Lt = tnn.BatchNorm1d(num_features, affine=affine, eps=0.1, dtype=float)
 
         Lt.train()  # prime the torch norm layer
         Lt(torch.randn(batch_size, num_features, dtype=float))

@@ -3,7 +3,7 @@ from collections.abc import Sequence
 from itertools import chain
 from typing import Literal, Optional, TypeVar
 
-import casadi as cs
+import casadi as ca
 from numpy import broadcast_to, tril_indices, triu_indices
 from numpy.typing import ArrayLike
 
@@ -24,18 +24,18 @@ from ..containers import Sequential
 from ..linear import Linear
 from ..module import Module
 
-SymType = TypeVar("SymType", cs.SX, cs.MX)
+SymType = TypeVar("SymType", ca.SX, ca.MX)
 
 
 def _reshape_mat(x: SymType, size: int, shape: Literal["triu", "tril"]) -> SymType:
     # casadi at most supports 2D matrices, so the input must be non-batched
-    x = cs.vec(x)
+    x = ca.vec(x)
     if shape == "triu":
         indices = triu_indices(size)
-        ensure_triangular = cs.triu
+        ensure_triangular = ca.triu
     else:
         indices = tril_indices(size)
-        ensure_triangular = cs.tril
+        ensure_triangular = ca.tril
 
     mat = x.zeros(size, size)
     k = 0
@@ -96,9 +96,9 @@ class PsdNN(Module[SymType]):
         self.mat_head = Linear(hidden_features[-1], (out_size * (out_size + 1)) // 2)
         self.ref_head = Linear(hidden_features[-1], out_size)
         self._eps = (
-            1e-4 * cs.DM_eye(out_size)
+            1e-4 * ca.DM_eye(out_size)
             if eps is None
-            else cs.DM(broadcast_to(eps, (out_size, out_size)))
+            else ca.DM(broadcast_to(eps, (out_size, out_size)))
         )
         self._out_shape = out_shape
 
@@ -135,4 +135,4 @@ class PsdNN(Module[SymType]):
         """
         L_flat, ref = self._forward(context)
         L = _reshape_mat(L_flat, self._eps.size1(), "tril")
-        return cs.bilin(L @ L.T + self._eps, x - ref)
+        return ca.bilin(L @ L.T + self._eps, x - ref)

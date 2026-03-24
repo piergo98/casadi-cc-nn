@@ -20,8 +20,8 @@ This repo adds the possibility to leverage complementarity constraints for repre
 The package allows the creation of neural networks with the symbolic language offered by [CasADi](https://web.casadi.org). This is done in a similar way to [PyTorch](https://pytorch.org/). For example, the following code allows us to create an MLP with a hidden layer:
 
 ```python
-import casadi as cs
-from csnn import set_sym_type, Linear, Sequential, ReLU
+import casadi as ca
+from ccnn import set_sym_type, Linear, Sequential, ReLU
 
 set_sym_type("SX")  # can set either MX or SX
 
@@ -33,7 +33,7 @@ net = Sequential[cs.SX]((
 ))
 
 batch = 2
-input = cs.SX.sym("in", batch, 4)
+input = ca.SX.sym("in", batch, 4)
 output = net(input)
 assert output.shape == (batch, 1)
 ```

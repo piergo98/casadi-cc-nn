@@ -2,7 +2,7 @@
 
 import numpy as np
 
-import csnn
+import ccnn
 
 np_random = np.random.default_rng(69)
 
@@ -13,8 +13,8 @@ n_out = 4
 features = [n_in, *n_hidden, n_out]
 
 # define the activation functions - can also be a list including Nones
-acts = [csnn.ReLU, None, csnn.ELU, csnn.Tanh]  # one per hidden layer + output
-mdl = csnn.feedforward.Mlp(features, acts, biases=True)
+acts = [ccnn.ReLU, None, ccnn.ELU, ccnn.Tanh]  # one per hidden layer + output
+mdl = ccnn.feedforward.Mlp(features, acts, biases=True)
 
 # take a look at the model
 print(mdl)

@@ -1,7 +1,7 @@
 from typing import Literal, Optional
 
-import csnn.functional as F
-from csnn.module import Module, SymType
+import ccnn.functional as F
+from ccnn.module import Module, SymType
 
 
 class RNNCell(Module[SymType]):
@@ -26,11 +26,15 @@ class RNNCell(Module[SymType]):
         hidden_size: int,
         bias: bool = True,
         nonlinearity: Literal["tanh", "relu"] = "tanh",
+        complementarity: bool = False,
+        tau: float = 1.0,
     ) -> None:
         super().__init__()
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.nonlinearity = nonlinearity
+        self.complementarity = bool(complementarity)
+        self.tau = float(tau)
         self.weight_ih = self.sym_type.sym("weight_ih", hidden_size, input_size)
         self.weight_hh = self.sym_type.sym("weight_hh", hidden_size, hidden_size)
         if bias:
@@ -56,6 +60,8 @@ class RNNCell(Module[SymType]):
         SymType
             The output tensor (new state) of shape `(batch_size, hidden_size)`.
         """
+        if self.complementarity and self.nonlinearity != "relu":
+            raise ValueError("Complementarity constraints are only supported for ReLU.")
         if hx is None:
             hx = self.sym_type.zeros(input.shape[0], self.hidden_size)
         return F.rnn_cell(
@@ -66,12 +72,15 @@ class RNNCell(Module[SymType]):
             self.bias_ih,
             self.bias_hh,
             self.nonlinearity,
+            self.complementarity,
+            self.tau,
         )
 
     def extra_repr(self) -> str:
         return (
             f"input_size={self.input_size}, hidden_size={self.hidden_size}, "
-            f"bias={self.bias_ih is not None}, nonlinearity={self.nonlinearity}"
+            f"bias={self.bias_ih is not None}, nonlinearity={self.nonlinearity}, "
+            f"complementarity={self.complementarity}, tau={self.tau}"
         )
 
 
@@ -100,12 +109,16 @@ class RNN(Module[SymType]):
         num_layers: int = 1,
         bias: bool = True,
         nonlinearity: Literal["tanh", "relu"] = "tanh",
+        complementarity: bool = False,
+        tau: float = 1.0,
     ) -> None:
         super().__init__()
         self.input_size = input_size
         self.hidden_size = hs = hidden_size
         self.num_layers = num_layers
         self.nonlinearity = nonlinearity
+        self.complementarity = bool(complementarity)
+        self.tau = float(tau)
 
         f = self.sym_type.sym
         self.weight_ih_l0 = f("weight_ih_l0", hs, input_size)
@@ -164,6 +177,8 @@ class RNN(Module[SymType]):
         """
         if hx is None:
             hx = self.sym_type.zeros(self.num_layers, self.hidden_size)
+        if self.complementarity and self.nonlinearity != "relu":
+            raise ValueError("Complementarity constraints are only supported for ReLU.")
         return F.rnn(
             input,
             hx,
@@ -172,11 +187,14 @@ class RNN(Module[SymType]):
             self._biases_ih,
             self._biases_hh,
             self.nonlinearity,
+            self.complementarity,
+            self.tau,
         )
 
     def extra_repr(self) -> str:
         return (
             f"input_size={self.input_size}, hidden_size={self.hidden_size}, "
             f"num_layers={self.num_layers}, bias={self._biases_ih is not None}, "
-            f"nonlinearity={self.nonlinearity}"
+            f"nonlinearity={self.nonlinearity}, complementarity={self.complementarity}, "
+            f"tau={self.tau}"
         )

@@ -4,18 +4,15 @@ __all__ = [
     "BatchNorm1d",
     "Dropout",
     "Dropout1d",
-    "GELU",
-    "ELU",
-    "LeakyReLU",
     "Module",
     "Sequential",
     "Linear",
     "ReLU",
     "RNN",
     "RNNCell",
-    "SELU",
     "Sigmoid",
     "Softplus",
+    "Step",
     "Tanh",
     "convex",
     "feedforward",
@@ -27,9 +24,9 @@ __all__ = [
 
 from typing import Literal, Union
 
-import casadi as cs
+import casadi as ca
 
-from .activation import ELU, GELU, SELU, LeakyReLU, ReLU, Sigmoid, Softplus, Tanh
+from .activation import ReLU, Sigmoid, Softplus, Step, Tanh
 from .containers import Sequential
 from .dropout import Dropout, Dropout1d
 from .linear import Linear
@@ -38,12 +35,12 @@ from .norm import BatchNorm1d
 from .recurrent import RNN, RNNCell
 
 
-def get_sym_type() -> Union[type[cs.SX], type[cs.MX]]:
+def get_sym_type() -> Union[type[ca.SX], type[ca.MX]]:
     """Gets the casadi's symbolic type used to build the networks.
 
     Returns
     -------
-    type[cs.SX] or type[cs.MX]]
+    type[ca.SX] or type[ca.MX]]
         The current symbolic type, either `casadi.SX` or `MX`.
     """
     return Module.sym_type
@@ -57,12 +54,12 @@ def set_sym_type(type: Literal["SX", "MX"]) -> None:
     type : "SX" or "MX"
         The name of the symbolic type to set.
     """
-    Module.sym_type = getattr(cs, type)
+    Module.sym_type = getattr(ca, type)
 
 
 # import these guys for last
 
-import csnn.convex as convex
-import csnn.feedforward as feedforward
+import ccnn.convex as convex
+import ccnn.feedforward as feedforward
 
 from .init import init_parameters

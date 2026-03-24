@@ -1,5 +1,5 @@
-import csnn.functional as F
-from csnn.module import Module, SymType
+import ccnn.functional as F
+from ccnn.module import Module, SymType
 
 
 class Dropout(Module[SymType]):

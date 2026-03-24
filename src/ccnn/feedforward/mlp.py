@@ -3,7 +3,7 @@ from collections.abc import Iterable, Sequence
 from itertools import chain, repeat
 from typing import Optional, TypeVar, Union
 
-import casadi as cs
+import casadi as ca
 
 if sys.version_info >= (3, 10):
     from itertools import pairwise
@@ -22,7 +22,7 @@ from ..containers import Sequential
 from ..linear import Linear
 from ..module import Module
 
-SymType = TypeVar("SymType", cs.SX, cs.MX)
+SymType = TypeVar("SymType", ca.SX, ca.MX)
 
 
 def _create_linear_layer(

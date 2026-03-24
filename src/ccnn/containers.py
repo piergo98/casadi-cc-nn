@@ -4,11 +4,11 @@ from itertools import islice
 from operator import index
 from typing import TypeVar, Union
 
-import casadi as cs
+import casadi as ca
 
-from csnn.module import Module
+from ccnn.module import Module
 
-SymType = TypeVar("SymType", cs.SX, cs.MX)
+SymType = TypeVar("SymType", ca.SX, ca.MX)
 
 
 class Sequential(Module[SymType]):

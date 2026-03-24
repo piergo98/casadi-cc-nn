@@ -6,14 +6,14 @@ import casadi as cs
 import matplotlib.pyplot as plt
 import numpy as np
 
-import csnn
+import ccnn
 
 # create the model
 np_random = np.random.default_rng(69)
 n_in = 10
 n_hidden = [32, 16, 8]
 out_size = 2  # in order to plot the output in 3D
-mdl = csnn.convex.PsdNN(n_in, n_hidden, out_size, "tril")
+mdl = ccnn.convex.PsdNN(n_in, n_hidden, out_size, "tril")
 
 # turn it into a function - it will output a quadratic form based on the Cholsekly
 # decomposition of a PSD matrix and a reference point.
@@ -26,7 +26,7 @@ p = cs.veccat(*(p for _, p in mdl.parameters(skip_none=True)))
 QF = cs.Function("QF", [x, z, p], [y], ["x", "z", "p"], ["y"])
 
 # initialize the parameters with this class' specific init_parameters method
-p_num = dict(csnn.init_parameters(mdl, seed=np_random))
+p_num = dict(ccnn.init_parameters(mdl, seed=np_random))
 p_num = cs.vvcat(p_num.values())
 
 # draw a random context point and check the correspondig matrix is PSD
