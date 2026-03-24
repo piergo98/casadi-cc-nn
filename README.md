@@ -1,8 +1,9 @@
-# Neural Networks with CasADi
+# Complementarity Constraints Neural Networks with CasADi
 
-**csnn** is a package for creating symbolic neural networks in [CasADi](https://web.casadi.org) in a [PyTorch](https://pytorch.org/)-like API style.
+**ccnn** is a package for creating symbolic neural networks in [CasADi](https://web.casadi.org) in a [PyTorch](https://pytorch.org/)-like API style. The official repo is from [csnn](https://github.com/FilippoAiraldi/casadi-neural-nets).
+This repo adds the possibility to leverage complementarity constraints for representing the activation functions, helping the solver in Newton-type optimization.
 
-[![PyPI version](https://badge.fury.io/py/csnn.svg)](https://badge.fury.io/py/csnn)
+<!-- [![PyPI version](https://badge.fury.io/py/csnn.svg)](https://badge.fury.io/py/csnn)
 [![Source Code License](https://img.shields.io/badge/license-MIT-blueviolet)](https://github.com/FilippoAiraldi/casadi-neural-nets/blob/master/LICENSE)
 ![Python 3.9](https://img.shields.io/badge/python->=3.9-green.svg)
 
@@ -10,7 +11,7 @@
 [![Downloads](https://static.pepy.tech/badge/csnn)](https://www.pepy.tech/projects/csnn)
 [![Maintainability](https://api.codeclimate.com/v1/badges/6006c41542cd8e902125/maintainability)](https://codeclimate.com/github/FilippoAiraldi/casadi-neural-nets/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6006c41542cd8e902125/test_coverage)](https://codeclimate.com/github/FilippoAiraldi/casadi-neural-nets/test_coverage)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) -->
 
 ---
 
@@ -47,9 +48,9 @@ So far, the following modules that are available in PyTorch have been implemente
   * Module
   * Sequential
 - Activation functions
-  * GELU
+  <!-- * GELU
   * SELU
-  * LeakyReLU
+  * LeakyReLU -->
   * ReLU
   * Sigmoid
   * Softplus
@@ -76,18 +77,17 @@ Additionally, the library provides the implementation for the following convex n
 To install the package, run
 
 ```bash
-pip install csnn
+git clone https://github.com/piergo98/casadi-cc-nn
+```
+Then, run
+
+```bash
+pip install -e .
 ```
 
 **csnn** has the following dependencies
 
 - [CasADi](https://web.casadi.org)
-
-For playing around with the source code instead, run
-
-```bash
-git clone https://github.com/FilippoAiraldi/casadi-neural-nets.git
-```
 
 ---
 
@@ -99,10 +99,7 @@ The repository is provided under the MIT License. See the LICENSE file included 
 
 ## Author
 
-[Filippo Airaldi](https://www.tudelft.nl/staff/f.airaldi/), PhD Candidate [f.airaldi@tudelft.nl | filippoairaldi@gmail.com]
+[Pietro Gori](https://github.com/piergo98/piergo98/tree/main), PhD Candidate [pietro.gori@phd.unipi.it | piergo98@gmail.com]
 
-> [Delft Center for Systems and Control](https://www.tudelft.nl/en/3me/about/departments/delft-center-for-systems-and-control/) in [Delft University of Technology](https://www.tudelft.nl/en/)
+Copyright (c) 2025 Pietro Gori.
 
-Copyright (c) 2023 Filippo Airaldi.
-
-Copyright notice: Technische Universiteit Delft hereby disclaims all copyright interest in the program “csnn” (Nueral Networks with CasADi) written by the Author(s). Prof. Dr. Ir. Fred van Keulen, Dean of 3mE.
